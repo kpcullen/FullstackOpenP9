@@ -8,16 +8,17 @@ import {
   TableCell,
   TableRow,
   TableBody,
+  Alert,
 } from '@mui/material';
 import axios from 'axios';
 
 import { PatientFormValues, Patient } from '../../types';
-import AddPatientModal from '../AddPatientModal';
-
 import HealthRatingBar from '../HealthRatingBar';
 
 import patientService from '../../services/patients';
 import { Link } from 'react-router-dom';
+import ModalWindow from '../ModalWindow/ModalWindow';
+import AddPatientForm from '../AddPatientModal/AddPatientForm';
 
 interface Props {
   patients: Patient[];
@@ -91,12 +92,10 @@ const PatientListPage = ({ patients, setPatients }: Props) => {
           ))}
         </TableBody>
       </Table>
-      <AddPatientModal
-        modalOpen={modalOpen}
-        onSubmit={submitNewPatient}
-        error={error}
-        onClose={closeModal}
-      />
+      <ModalWindow modalOpen={modalOpen} onClose={() => closeModal()}>
+        {error && <Alert severity="error">{error}</Alert>}
+        <AddPatientForm onCancel={closeModal} onSubmit={submitNewPatient} />
+      </ModalWindow>
       <Button variant="contained" onClick={() => openModal()}>
         Add New Patient
       </Button>

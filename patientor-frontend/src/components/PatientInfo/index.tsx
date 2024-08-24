@@ -6,9 +6,10 @@ import { Diagnosis, Entry, EntryFormValues, Patient } from '../../types';
 import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
 import PatientEntries from '../PatientEntries/PatientEntries';
-import { Button } from '@mui/material';
-import AddEntryModal from '../AddEntryModal';
+import { Alert, Button } from '@mui/material';
 import axios from 'axios';
+import ModalWindow from '../ModalWindow/ModalWindow';
+import AddEntryForm from '../AddEntryModal/AddEntryForm';
 
 const PatientInfo = () => {
   const [patientInfo, setPatientInfo] = useState<Patient | null>(null);
@@ -83,13 +84,14 @@ const PatientInfo = () => {
         patientEntries={entries}
         diagnosesDescriptions={diagnosesDescriptions}
       />
-      <AddEntryModal
-        modalOpen={modalOpen}
-        error={error}
-        onSubmit={submitNewEntry}
-        onClose={closeModal}
-        diagnosesDescriptions={diagnosesDescriptions}
-      />
+      <ModalWindow onClose={() => closeModal} modalOpen={modalOpen}>
+        {error && <Alert severity="error">{error}</Alert>}
+        <AddEntryForm
+          onSubmit={submitNewEntry}
+          onCancel={closeModal}
+          diagnoses={diagnosesDescriptions}
+        />
+      </ModalWindow>
       <Button onClick={openModal} variant="contained" color="primary">
         Add new entry
       </Button>

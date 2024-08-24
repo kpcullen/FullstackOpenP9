@@ -17,7 +17,6 @@ import {
   EntryType,
   HealthCheckRating,
 } from '../../types';
-import { assertNever } from '../../helpers';
 
 const entryTypeOptions: Record<EntryType, string> = {
   Hospital: 'Hospital Entry',
@@ -131,7 +130,7 @@ const AddEntryForm = ({ onCancel, onSubmit, diagnoses }: Props) => {
         break;
       }
       default:
-        return assertNever(type);
+        throw new Error('Type unspecified...');
     }
   };
 
@@ -140,6 +139,7 @@ const AddEntryForm = ({ onCancel, onSubmit, diagnoses }: Props) => {
       <form onSubmit={addEntry}>
         <InputLabel id="type">Type of visit</InputLabel>
         <Select
+          required
           fullWidth
           labelId="type"
           id="type"
@@ -156,6 +156,7 @@ const AddEntryForm = ({ onCancel, onSubmit, diagnoses }: Props) => {
 
         <InputLabel id="date">Date of visit</InputLabel>
         <Input
+          required
           fullWidth
           type="date"
           onChange={({ target }) => {
@@ -183,6 +184,7 @@ const AddEntryForm = ({ onCancel, onSubmit, diagnoses }: Props) => {
 
         <InputLabel id="specialist">Name of specialist</InputLabel>
         <TextField
+          required
           label="Specialist"
           fullWidth
           value={specialist}
